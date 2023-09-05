@@ -1,5 +1,7 @@
+# Файлы системы
 *.DS_Store
 
+# LaTeX файлы
 *.toc
 *.synctex.*
 *.run
@@ -8,3 +10,6 @@
 *.bcf
 *.aux
 *.xml
+
+# Matlab файлы
+*.asv
