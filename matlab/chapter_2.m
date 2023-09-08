@@ -43,9 +43,23 @@ Q = diag([2:1:8]) + diag(ones(1, 6), 1) + diag((-1 * ones(1, 6)), -1)
 Q(1, end) = 5
 Q(end, 1) = 5
 
-%
 W = diag(ones(1, 7)) + fliplr(diag((-1 * ones(7, 1))))
 W(4, 4) = 5
+
+E = diag(ones(1, 3))
+E(4:7,5:8) = diag(ones(1, 4))
+E(1, 9:11) = 0
+
+R = diag(ones(1, 7)) + diag(ones(1, 3), 4)
+R(4:7, 8:11) = diag(ones(1, 4))
+
+A2 = [diag(ones(1, 3)) (4 * diag(ones(1, 3)));
+      (2 * ones(3, 3)) (3 * ones(3, 3))]
+r = sqrt(sum(sum(A(1:end, 1:end) ^ 2)))
+
+
+
+
 
 
 
