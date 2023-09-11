@@ -93,4 +93,16 @@ zlabel('z');
 
 %% 3
 
-% что то лютое
+U = (0:0.1:3)';
+V = (0:0.1:3);
+
+x_ = cos(U) * cos(V);
+y_ = sin(U) * sin(V);
+z_ = U * V;
+
+figure;
+surf(x_, y_, z_)
+hold on
+[u_, v_, w_] = surfnorm(x_, y_, z_);
+quiver3(x_, y_, z_, u_, v_, w_, 1, 'k');
+
