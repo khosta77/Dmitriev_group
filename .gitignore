@@ -13,3 +13,6 @@
 
 # Matlab файлы
 *.asv
+
+# Jupiter notebook file
+*.ipynb_checkpoints
