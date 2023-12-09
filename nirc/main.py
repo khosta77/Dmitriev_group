@@ -22,24 +22,6 @@ def rotationZ(x, y, z, p):
     _z = z
     return _x, _y, _z
 
-def AircraftMovemonent(x, y, z):
-    global SPEED, I, ai, J, aj, K, ak
-    if ai >= 0.0 and aj >= 0.0 and ak >= 0.0 :
-        _x = x - SPEED * np.cos(K)
-    
-    else:
-        _x = x + SPEED * np.cos(K)
-
-    if ak >= 0.0:
-        _y = y + SPEED * np.sin(K)
-    else:
-        _y = y - SPEED * np.sin(K)
-
-    #if aj 
-    #_z = z + SPEED * np.sin(I) + SPEED * np.cos(J)
-    
-    return _x, _y, z
-
 L_LOCK_ROLL   = -720.0 # Предел по левому углу крена
 R_LOCK_ROLL   =  720.0
 L_LOCK_PITCH  = -720.0 # Предел по левому углу тангажа
@@ -57,11 +39,23 @@ k = 0; K = 0; ak = 0  # Угод рыскания
 X = np.array([-1, -5, -3, -3, -3, -3, 5, -3, -3, -5, -3, 5, -3, -5, -1, -1, 1,  1, -1, -1, 5, 5, 3,  3,  5, 5, 5, 3])
 Y = np.array([ 0,  0, -2,  2,  2, -2, 0, -2, -2,  0,  2, 0,  2,  0,  0,  7, 7, -7, -7,  0, 0, 4, 4, -4, -4, 0, 0, 0])
 Z = np.array([ 0,  0,  2,  2, -2, -2, 0,  2, -2,  0, -2, 0,  2,  0,  0,  0, 0,  0,  0,  0, 0, 0, 0,  0,  0, 0, 3, 0])
-#X, Y, Z = rotationZ(X, Y, Z, ((90.0 * np.pi) / 180.0))
 x, y, z = X, Y, Z
 
 mrk_move = 0
 SPEED = 0.5
+
+def AircraftMovemonent(x, y, z):
+    global SPEED, I, ai, J, aj, K, ak
+    _x = x; _y = y; _z = z
+    if np.abs(ak) <= 90.0:
+        _x = x - SPEED * np.cos(K)
+    else:
+        _x = x + SPEED * np.cos(((np.abs(ak) + 180.0) * np.pi) / 180.0)
+    _y = y + SPEED * np.sin(I)
+    _z = z + SPEED * np.sin(J)
+    return _x, _y, _z
+
+
 
 def fRadianstDegrees():
     global ai, I, aj, J, ak, K
@@ -102,8 +96,6 @@ def on_press(key):
         fRadianstDegrees();
 
         if pushed_key == "c":
-            #if pushed_key == "c" and (ak >= -22.5 and ak <= 22.5):
-            #   x = x - SPEED
             x = x - SPEED * np.cos(((ak) * np.pi) / 180.0)
             y = y - SPEED * np.sin(((ak) * np.pi) / 180.0)
             z = z + SPEED * np.sin(J)
