@@ -5,18 +5,27 @@ from scipy import signal
 from pynput import keyboard
 
 def rotationX(x, y, z, p):
+    '''
+    Функция крена
+    '''
     _x = x
     _y = (y - y[0]) * np.cos(p) + (z - z[0]) * np.sin(p) + y[0]
     _z = (z - z[0]) * np.cos(p) - (y - y[0]) * np.sin(p) + z[0]
     return _x, _y, _z
 
 def rotationY(x, y, z, p):
+    '''
+    Функция тангажа
+    '''
     _x = (x - x[0]) * np.cos(p) + (z - z[0]) * np.sin(p) + x[0]
     _y = y
     _z = (z - z[0]) * np.cos(p) - (x - x[0]) * np.sin(p) + z[0]
     return _x, _y, _z
 
 def rotationZ(x, y, z, p):
+    '''
+    Функция рыскания
+    '''
     _x = (x - x[0]) * np.cos(p) + (y - y[0]) * np.sin(p) + x[0]
     _y = (y - y[0]) * np.cos(p) - (x - x[0]) * np.sin(p) + y[0]
     _z = z
@@ -28,6 +37,7 @@ L_LOCK_PITCH  = -720.0 # Предел по левому углу тангажа
 R_LOCK_PITCH  =  720.0
 L_LOCK_YAWING = -720.0 # Предел по левому углу рыскания
 R_LOCK_YAWING =  720.0
+
 # Создаем 3д пространство
 fig = plt.figure(figsize = (8,8))
 ax = plt.axes(projection = '3d')
@@ -36,6 +46,7 @@ i = 0; I = 0; ai = 0  # Угол крена
 j = 0; J = 0; aj = 0  # Угол тангажа
 k = 0; K = 0; ak = 0  # Угод рыскания
 
+# Заданная модель беспилотника
 X = np.array([-1, -5, -3, -3, -3, -3, 5, -3, -3, -5, -3, 5, -3, -5, -1, -1, 1,  1, -1, -1, 5, 5, 3,  3,  5, 5, 5, 3])
 Y = np.array([ 0,  0, -2,  2,  2, -2, 0, -2, -2,  0,  2, 0,  2,  0,  0,  7, 7, -7, -7,  0, 0, 4, 4, -4, -4, 0, 0, 0])
 Z = np.array([ 0,  0,  2,  2, -2, -2, 0,  2, -2,  0, -2, 0,  2,  0,  0,  0, 0,  0,  0,  0, 0, 0, 0,  0,  0, 0, 3, 0])
@@ -96,14 +107,10 @@ def on_press(key):
         fRadianstDegrees();
 
         if pushed_key == "c":
-            x = x - SPEED * np.cos(((ak) * np.pi) / 180.0)
-            y = y - SPEED * np.sin(((ak) * np.pi) / 180.0)
-            z = z + SPEED * np.sin(J)
+            pass
 
         if pushed_key == "x":
-            x = x + SPEED * np.cos(K)
-            y = y + SPEED * np.sin(K)
-            z = z - SPEED * np.sin(J)
+            pass
 
         # Настройка
         if pushed_key == "r":
@@ -118,10 +125,8 @@ def on_press(key):
             print(f'\nРежим движения {mrk_move}')
     except AttributeError:
         pass
-        #print('special key {0} pressed'.format(key))
 
 def on_release(key):
-    #print('{0} released'.format(key))
     if key == keyboard.Key.esc:
         print('Выход из программы')
         return False
@@ -132,7 +137,6 @@ listener.start()
 
 
 while True:
-
     print(f'\nУгол крена = {round(ai, 2)}\nУгол тангажа = {round(aj, 2)}\nУгол рыскания = {round(ak, 2)}\nКоординаты X = {x}')
     if ai >= L_LOCK_ROLL and ai <= R_LOCK_ROLL:
         x, y, z = rotationX(x, y, z, i)
@@ -158,3 +162,5 @@ while True:
     plt.pause(.001)
 
 plt.show()
+
+
