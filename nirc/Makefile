@@ -1,9 +1,7 @@
-
-
-
+PYTHON=python3
 
 all: 
-	python3 main.py
+	$(PYTHON) ./main.py
 
 pip:
-	pip3 install numpy
+	pip3 install numpy matplotlib scipy pynput
